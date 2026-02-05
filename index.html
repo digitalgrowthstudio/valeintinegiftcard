@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Valentine Card</title>
+
+<style>
+:root{
+  --pink:#ff3b93;
+  --pink2:#ff86c2;
+  --bg1:#120018;
+  --bg2:#2b0038;
+}
+
+*{margin:0;padding:0;box-sizing:border-box;font-family:system-ui,-apple-system,Segoe UI,Roboto}
+body{
+  height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:
+    radial-gradient(circle at 20% 20%, #ff4fa7, transparent 40%),
+    radial-gradient(circle at 80% 30%, #ff9ad5, transparent 35%),
+    linear-gradient(135deg,var(--bg1),var(--bg2));
+  overflow:hidden;
+  color:white;
+}
+
+/* Floating hearts background */
+.hearts{
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+}
+.heart{
+  position:absolute;
+  width:20px;height:20px;
+  background:linear-gradient(135deg,var(--pink),var(--pink2));
+  transform:rotate(45deg);
+  animation:float linear infinite;
+}
+.heart::before,.heart::after{
+  content:"";
+  position:absolute;
+  width:20px;height:20px;
+  background:inherit;
+  border-radius:50%;
+}
+.heart::before{left:-10px}
+.heart::after{top:-10px}
+@keyframes float{
+  from{transform:translateY(110vh) rotate(45deg)}
+  to{transform:translateY(-20vh) rotate(45deg)}
+}
+
+/* Card */
+.wrap{perspective:1400px}
+.card{
+  width:320px;
+  height:420px;
+  position:relative;
+  transform-style:preserve-3d;
+  transition:1s;
+}
+.card.open{transform:rotateY(180deg)}
+
+.panel{
+  position:absolute;
+  inset:0;
+  background:rgba(255,255,255,.08);
+  backdrop-filter:blur(14px);
+  border-radius:18px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:16px;
+  padding:20px;
+}
+
+.front{backface-visibility:hidden}
+.inside{
+  transform:rotateY(180deg);
+  backface-visibility:hidden;
+}
+
+button{
+  padding:12px 18px;
+  border:none;
+  border-radius:12px;
+  font-weight:800;
+  cursor:pointer;
+  color:white;
+}
+.openBtn{background:linear-gradient(135deg,var(--pink),var(--pink2))}
+.yes{background:#00c97c}
+.no{background:#ff4040; position:absolute}
+
+.noArea{
+  width:200px;
+  height:120px;
+  position:relative;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.noMsg{
+  height:20px;
+  font-weight:700;
+  opacity:0;
+  transition:.3s;
+}
+.noMsg.show{opacity:1}
+
+/* FINAL SCREEN */
+.final{
+  position:fixed;
+  inset:0;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  flex-direction:column;
+  text-align:center;
+  z-index:5;
+}
+
+.big{
+  font-size:40px;
+  font-weight:900;
+  margin-top:10px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="hearts" id="hearts"></div>
+
+<div class="wrap">
+<div class="card" id="card">
+
+<div class="panel front">
+<h2>Valentine Card 💌</h2>
+<button class="openBtn" id="openBtn">Open</button>
+</div>
+
+<div class="panel inside">
+<h2>Will you be my Valentine?</h2>
+
+<div>
+<button class="yes" id="yesBtn">YES</button>
+
+<div class="noArea" id="noArea">
+<button class="no" id="noBtn">NO</button>
+</div>
+</div>
+
+<div class="noMsg" id="noMsg"></div>
+
+</div>
+</div>
+</div>
+
+<div class="final" id="final">
+<h2>I knew it ❤️</h2>
+
+<div class="big">HAPPY VALENTINE’S DAY</div>
+<div class="big">I LOVE YOU</div>
+</div>
+
+<script>
+/* Hearts generator */
+const hearts=document.getElementById("hearts");
+for(let i=0;i<40;i++){
+ let h=document.createElement("div");
+ h.className="heart";
+ h.style.left=Math.random()*100+"vw";
+ h.style.animationDuration=(6+Math.random()*6)+"s";
+ hearts.appendChild(h);
+}
+
+/* Card flip */
+openBtn.onclick=()=>card.classList.add("open");
+
+/* NO runaway */
+const msgs=[
+"Think again 😏",
+"Are you sure?",
+"One more chance 💘",
+"Wrong button 😄",
+"Say YES please ❤️"
+];
+let count=0;
+
+function move(){
+ let rect=noArea.getBoundingClientRect();
+ let x=Math.random()*(rect.width-60);
+ let y=Math.random()*(rect.height-30);
+ noBtn.style.transform=`translate(${x}px,${y}px)`;
+ noMsg.textContent=msgs[count%msgs.length];
+ noMsg.classList.add("show");
+ count++;
+}
+
+noBtn.onclick=e=>{e.preventDefault();move();}
+noBtn.onmouseenter=move;
+
+/* YES final */
+yesBtn.onclick=()=>{
+ final.style.display="flex";
+}
+</script>
+
+</body>
+</html>
