@@ -7,7 +7,7 @@
 
 <style>
 
-/* ===== BACKGROUND ===== */
+/* BACKGROUND */
 body{
 margin:0;
 font-family:Georgia, serif;
@@ -22,16 +22,13 @@ inset:0;
 pointer-events:none;
 z-index:0;
 }
-
 .heart{
 position:absolute;
-width:18px;
-height:18px;
+width:18px;height:18px;
 background:#ff7aa8;
 transform:rotate(45deg);
-animation:float 8s linear infinite;
+animation:float linear infinite;
 }
-
 .heart:before,.heart:after{
 content:"";
 position:absolute;
@@ -53,23 +50,13 @@ height:100vh;
 display:flex;
 align-items:center;
 justify-content:center;
-transition:0.6s ease;
-position:relative;
-z-index:1;
+position:absolute;
+width:100%;
+top:0;
+left:0;
+transition:opacity .5s;
 }
 
-.hidden{
-opacity:0;
-transform:scale(.8);
-pointer-events:none;
-}
-
-.visible{
-opacity:1;
-transform:scale(1);
-}
-
-/* CARD */
 .card{
 background:white;
 padding:40px;
@@ -86,9 +73,7 @@ animation:pulse 3s infinite;
 100%{box-shadow:0 0 15px rgba(255,120,160,.3)}
 }
 
-.card h2{
-color:#d94c86;
-}
+.card h2{color:#d94c86;}
 
 /* BUTTONS */
 button{
@@ -102,10 +87,7 @@ color:white;
 font-weight:700;
 transition:.3s;
 }
-
-button:hover{
-transform:scale(1.1);
-}
+button:hover{transform:scale(1.1)}
 
 .open{background:#ff7aa8;}
 .yes{background:#ff7aa8;}
@@ -121,7 +103,6 @@ align-items:center;
 justify-content:center;
 z-index:999;
 }
-
 video{
 width:100%;
 height:100%;
@@ -133,11 +114,10 @@ object-fit:contain;
 
 <body>
 
-<!-- HEART BACKGROUND -->
 <div class="hearts" id="hearts"></div>
 
 <!-- SCREEN 1 -->
-<div class="screen visible" id="giftScreen">
+<div class="screen" id="giftScreen">
   <div class="card">
     <h2>🎁 Open Your Gift Card</h2>
     <button class="open" onclick="openGift()">OPEN ❤️</button>
@@ -145,10 +125,9 @@ object-fit:contain;
 </div>
 
 <!-- SCREEN 2 -->
-<div class="screen hidden" id="questionScreen">
+<div class="screen" id="questionScreen" style="opacity:0; pointer-events:none;">
   <div class="card">
     <h2>Will you be my Valentine? 💖</h2>
-
     <button class="yes" onclick="playYes()">YES 😍</button>
     <button class="no" onclick="playNo()">NO 😜</button>
   </div>
@@ -161,7 +140,7 @@ object-fit:contain;
 
 <script>
 
-/* HEART GENERATOR */
+/* HEARTS */
 const hearts=document.getElementById("hearts");
 for(let i=0;i<40;i++){
 let h=document.createElement("div");
@@ -171,24 +150,23 @@ h.style.animationDuration=(5+Math.random()*5)+"s";
 hearts.appendChild(h);
 }
 
-/* TRANSITION */
+/* SCREEN SWITCH */
 function openGift(){
 const g=document.getElementById("giftScreen");
 const q=document.getElementById("questionScreen");
 
-g.classList.remove("visible");
-g.classList.add("hidden");
-
+g.style.opacity="0";
 setTimeout(()=>{
-q.classList.remove("hidden");
-q.classList.add("visible");
-},300);
+g.style.display="none";
+q.style.display="flex";
+q.style.opacity="1";
+q.style.pointerEvents="auto";
+},400);
 }
 
-/* VIDEO PLAYER */
+/* VIDEO */
 function showVideo(src){
 document.getElementById("questionScreen").style.display="none";
-
 const screen=document.getElementById("videoScreen");
 const player=document.getElementById("player");
 
