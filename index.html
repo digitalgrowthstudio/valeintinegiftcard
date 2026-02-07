@@ -3,19 +3,19 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Valentine</title>
+<title>Valentine Gift</title>
 
 <style>
 
-/* ===== PAGE BACKGROUND ===== */
+/* BACKGROUND */
 body{
 margin:0;
-font-family: Georgia, serif;
+font-family:Georgia, serif;
 background: linear-gradient(180deg,#ffd6e7,#fff0f6);
 }
 
-/* ===== CENTER CARD ===== */
-.container{
+/* CENTER BOX */
+.screen{
 height:100vh;
 display:flex;
 align-items:center;
@@ -31,28 +31,23 @@ text-align:center;
 max-width:340px;
 }
 
-.card h2{
-color:#d94c86;
-font-size:26px;
-margin-bottom:20px;
-}
-
 /* BUTTONS */
 button{
 padding:14px 22px;
 border:none;
 border-radius:14px;
 font-size:18px;
-margin:10px;
+margin:12px;
 cursor:pointer;
 color:white;
 font-weight:700;
 }
 
+.open{background:#ff7aa8;}
 .yes{background:#ff7aa8;}
 .no{background:#ff4d4d;}
 
-/* ===== VIDEO SCREEN ===== */
+/* VIDEO SCREEN */
 .videoScreen{
 display:none;
 position:fixed;
@@ -74,8 +69,16 @@ object-fit:contain;
 
 <body>
 
-<!-- CARD -->
-<div class="container" id="cardScreen">
+<!-- SCREEN 1 -->
+<div class="screen" id="giftScreen">
+  <div class="card">
+    <h2>🎁 Open Your Gift Card</h2>
+    <button class="open" onclick="openGift()">OPEN</button>
+  </div>
+</div>
+
+<!-- SCREEN 2 -->
+<div class="screen" id="questionScreen" style="display:none;">
   <div class="card">
     <h2>Will you be my Valentine? 💖</h2>
 
@@ -85,16 +88,22 @@ object-fit:contain;
   </div>
 </div>
 
-<!-- VIDEO PLAYER -->
+<!-- VIDEO -->
 <div class="videoScreen" id="videoScreen">
   <video id="player" controls autoplay playsinline></video>
 </div>
 
 <script>
 
-/* SHOW VIDEO FUNCTION */
+/* OPEN GIFT */
+function openGift(){
+  document.getElementById("giftScreen").style.display="none";
+  document.getElementById("questionScreen").style.display="flex";
+}
+
+/* SHOW VIDEO */
 function showVideo(src){
-  document.getElementById("cardScreen").style.display="none";
+  document.getElementById("questionScreen").style.display="none";
 
   const screen=document.getElementById("videoScreen");
   const player=document.getElementById("player");
@@ -105,12 +114,12 @@ function showVideo(src){
   player.play();
 }
 
-/* YES → CB VIDEO */
+/* YES VIDEO */
 function playYes(){
   showVideo("gemini_generated_video_136E69CB.mp4");
 }
 
-/* NO → C7 VIDEO */
+/* NO VIDEO */
 function playNo(){
   showVideo("gemini_generated_video_731D66C7.mp4");
 }
