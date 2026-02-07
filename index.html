@@ -6,228 +6,186 @@
 <title>Valentine Card</title>
 
 <style>
-:root{
- --pink:#ff3b93;
- --pink2:#ff86c2;
- --bg1:#120018;
- --bg2:#2b0038;
-}
 
-*{margin:0;padding:0;box-sizing:border-box;font-family:system-ui}
-
+/* ===== GLOBAL ===== */
 body{
- height:100vh;
- display:flex;
- align-items:center;
- justify-content:center;
- background:
- radial-gradient(circle at 20% 20%, #ff4fa7, transparent 40%),
- radial-gradient(circle at 80% 30%, #ff9ad5, transparent 35%),
- linear-gradient(135deg,var(--bg1),var(--bg2));
- overflow:hidden;
- color:white;
+margin:0;
+font-family: Georgia, serif;
+background: linear-gradient(#ffeef5,#ffffff);
+color:#555;
 }
 
-/* Floating hearts */
-.hearts{position:fixed;inset:0;pointer-events:none;}
-.heart{
- position:absolute;
- width:22px;height:22px;
- background:linear-gradient(135deg,var(--pink),var(--pink2));
- transform:rotate(45deg);
- animation:float linear infinite;
-}
-.heart::before,.heart::after{
- content:"";
- position:absolute;
- width:22px;height:22px;
- background:inherit;
- border-radius:50%;
-}
-.heart::before{left:-11px}
-.heart::after{top:-11px}
-
-@keyframes float{
- from{transform:translateY(110vh) rotate(45deg)}
- to{transform:translateY(-20vh) rotate(45deg)}
+/* ===== CARD SCREEN ===== */
+.container{
+height:100vh;
+display:flex;
+align-items:center;
+justify-content:center;
 }
 
-/* Card */
-.wrap{perspective:1200px}
 .card{
- width:360px;height:460px;
- transform-style:preserve-3d;
- transition:1s;
-}
-.card.open{transform:rotateY(180deg)}
-
-.panel{
- position:absolute;
- inset:0;
- background:rgba(255,255,255,.08);
- backdrop-filter:blur(12px);
- border-radius:20px;
- display:flex;
- flex-direction:column;
- align-items:center;
- justify-content:center;
- gap:22px;
- text-align:center;
+background:white;
+padding:40px;
+border-radius:22px;
+box-shadow:0 20px 40px rgba(255,100,150,.2);
+text-align:center;
+max-width:340px;
 }
 
-.front{backface-visibility:hidden}
-.inside{transform:rotateY(180deg);backface-visibility:hidden}
+h1{
+color:#e2558c;
+}
 
 button{
- padding:15px 22px;
- border:none;
- border-radius:14px;
- font-weight:900;
- font-size:22px;
- cursor:pointer;
- color:white;
-}
-.openBtn{background:linear-gradient(135deg,var(--pink),var(--pink2))}
-.yes{background:#00c97c}
-.no{background:#ff4040;position:absolute}
-
-.noArea{
- width:220px;height:140px;
- position:relative;
- display:flex;
- align-items:center;
- justify-content:center;
+padding:12px 20px;
+border:none;
+border-radius:12px;
+font-weight:700;
+font-size:18px;
+margin:10px;
+cursor:pointer;
 }
 
-/* Message */
-.noMsg{
- font-size:24px;
- font-weight:800;
- min-height:28px;
+.yes{background:#ff7cab;color:white;}
+.no{background:#ff4d4d;color:white;position:relative;}
+
+.msg{
+font-weight:700;
+color:#e2558c;
+min-height:24px;
 }
 
-/* Final Screen */
-.final{
- position:fixed;
- inset:0;
- display:none;
- flex-direction:column;
- align-items:center;
- justify-content:center;
- text-align:center;
- gap:26px;
+/* ===== LOVE PAGE ===== */
+.lovePage{
+display:none;
+padding:20px;
+background:#ffeef5;
+min-height:100vh;
 }
 
-/* Big text animations */
-.big1{font-size:64px;font-weight:900;animation:pulse 1.8s infinite;}
-.big2{font-size:58px;font-weight:900;animation:glow 2s infinite alternate;}
-.big3{font-size:58px;font-weight:900;animation:floatText 3s infinite ease-in-out;}
-
-@keyframes pulse{
- 0%{transform:scale(1)}
- 50%{transform:scale(1.08)}
- 100%{transform:scale(1)}
-}
-@keyframes glow{
- from{text-shadow:0 0 10px #fff,0 0 25px #ff3b93}
- to{text-shadow:0 0 30px #ff86c2,0 0 60px #ff3b93}
-}
-@keyframes floatText{
- 0%,100%{transform:translateY(0)}
- 50%{transform:translateY(-12px)}
+/* Headings */
+.mainTitle{
+text-align:center;
+font-size:38px;
+color:#e2558c;
+margin-top:20px;
 }
 
-.question{
- font-size:30px;
- font-weight:900;
+.subTitle{
+text-align:center;
+font-size:26px;
+margin-bottom:25px;
+color:#ff6fa8;
 }
+
+/* Sections */
+.section{
+background:white;
+margin:18px auto;
+padding:18px;
+border-radius:16px;
+max-width:600px;
+box-shadow:0 10px 20px rgba(255,120,160,.15);
+}
+
+.section h3{
+color:#e2558c;
+margin-bottom:8px;
+}
+
 </style>
 </head>
 
 <body>
 
-<div class="hearts" id="hearts"></div>
+<!-- ===== FIRST SCREEN ===== -->
+<div class="container" id="start">
+<div class="card">
 
-<div class="wrap" id="wrap">
-<div class="card" id="card">
-
-<div class="panel front">
-<h2 class="question">💘 Open Your Valentine Card 💘</h2>
-<button class="openBtn" id="openBtn">OPEN ❤️</button>
-</div>
-
-<div class="panel inside">
-<h2 class="question">Will you be my Valentine? 💖🥰</h2>
+<h1>Will you be my Valentine? 💖</h1>
 
 <button class="yes" id="yesBtn">YES 😍</button>
-
-<div class="noArea" id="noArea">
 <button class="no" id="noBtn">NO 😜</button>
-</div>
 
-<div class="noMsg" id="noMsg"></div>
+<div class="msg" id="msg"></div>
 
-</div>
 </div>
 </div>
 
-<div class="final" id="final">
-<div class="big1">I KNEW IT ❤️🥳</div>
-<div class="big2">HAPPY VALENTINE'S DAY 💐💞</div>
-<div class="big3">I LOVE YOU 😘❤️‍🔥</div>
+
+<!-- ===== LOVE PAGE ===== -->
+<div class="lovePage" id="lovePage">
+
+<div class="mainTitle">❤️ HAPPY VALENTINE’S DAY ❤️</div>
+<div class="subTitle">💖 THINGS I LOVE ABOUT YOU 💖</div>
+
+<div class="section">
+<h3>⭐ Your Smile</h3>
+<p>Your smile has a way of lighting up everything around you. It brings warmth, comfort, and joy in ways words can never fully explain.</p>
 </div>
+
+<div class="section">
+<h3>💞 Your Kindness</h3>
+<p>The compassion and kindness you show to everyone reflects your beautiful heart. It inspires me and makes the world brighter.</p>
+</div>
+
+<div class="section">
+<h3>✨ Your Laughter</h3>
+<p>Your laughter is my favorite sound — genuine, uplifting, and full of life. It turns ordinary moments into unforgettable memories.</p>
+</div>
+
+<div class="section">
+<h3>🌟 Your Strength</h3>
+<p>Your resilience and courage amaze me. No matter what comes your way, you face it with grace and determination.</p>
+</div>
+
+<div class="section">
+<h3>🎀 Your Heart</h3>
+<p>The love and sincerity you carry make me feel incredibly lucky. Your heart is pure, caring, and endlessly beautiful.</p>
+</div>
+
+<div class="section">
+<h3>🎯 Your Dreams</h3>
+<p>Watching you chase your goals with passion motivates me every day. Your ambition is truly inspiring.</p>
+</div>
+
+</div>
+
 
 <script>
-/* Hearts */
-const hearts=document.getElementById("hearts");
-for(let i=0;i<45;i++){
- let h=document.createElement("div");
- h.className="heart";
- h.style.left=Math.random()*100+"vw";
- h.style.animationDuration=(6+Math.random()*6)+"s";
- hearts.appendChild(h);
-}
 
-/* Elements */
-const card=document.getElementById("card");
-const openBtn=document.getElementById("openBtn");
-const yesBtn=document.getElementById("yesBtn");
+/* NO BUTTON RUN + MESSAGES */
 const noBtn=document.getElementById("noBtn");
-const noArea=document.getElementById("noArea");
-const noMsg=document.getElementById("noMsg");
-const final=document.getElementById("final");
-const wrap=document.getElementById("wrap");
+const msg=document.getElementById("msg");
 
-/* Messages */
-const messages=[
+const texts=[
 "One more chance 😏",
 "Think again 😉",
-"Don't break my heart 💔",
 "Are you sure? 😜",
+"Don't break my heart 💔",
 "Try YES 😍"
 ];
 let i=0;
 
-/* Open */
-openBtn.onclick=()=>card.classList.add("open");
-
-/* NO movement + text */
 function move(){
- let rect=noArea.getBoundingClientRect();
- let x=Math.random()*(rect.width-60);
- let y=Math.random()*(rect.height-30);
- noBtn.style.transform=`translate(${x}px,${y}px)`;
- noMsg.textContent=messages[i % messages.length];
- i++;
+noBtn.style.position="relative";
+noBtn.style.left=Math.random()*120-60+"px";
+noBtn.style.top=Math.random()*80-40+"px";
+
+msg.textContent=texts[i%texts.length];
+i++;
 }
+
 noBtn.onclick=e=>{e.preventDefault();move();}
 noBtn.onmouseenter=move;
 
-/* YES */
-yesBtn.onclick=()=>{
- wrap.style.display="none";
- final.style.display="flex";
+
+/* YES CLICK -> SHOW LOVE PAGE */
+document.getElementById("yesBtn").onclick=()=>{
+document.getElementById("start").style.display="none";
+document.getElementById("lovePage").style.display="block";
 };
+
 </script>
 
 </body>
